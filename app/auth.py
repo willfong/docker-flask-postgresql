@@ -61,7 +61,7 @@ def facebook_find_or_create_user(id):
     user_id = db.write(query, params, returning=True)[0]
     return user_id    
 
-def token_required(f):
+def auth_required(f):
     @wraps(f)
     def _verify(*args, **kwargs):
         auth_headers = request.headers.get('Authorization', '').split()
@@ -93,8 +93,6 @@ def token_required(f):
 @blueprint.route("/login/facebook", methods=['POST'])
 def login():
     access_token = request.json.get("accessToken")
-    print("at")
-    print(access_token)
     facebook_id = facebook_verify_access_token(access_token)
     user_id = facebook_find_or_create_user(facebook_id)
     token = jwt.encode({
