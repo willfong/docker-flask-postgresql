@@ -61,10 +61,10 @@ def facebook_find_or_create_user(id):
     user_id = db.write(query, params, returning=True)[0]
     return user_id    
 
-def auth_required(f):
+def token_required(f):
     @wraps(f)
     def _verify(*args, **kwargs):
-        auth_headers = request.headers.get('Authorization', '').split()
+        auth_token = request.headers.get('Authorization', '')
 
         invalid_msg = {
             'message': 'Invalid token. Registeration and / or authentication required',
@@ -75,19 +75,14 @@ def auth_required(f):
             'authenticated': False
         }
 
-        if len(auth_headers) != 2:
-            return jsonify(invalid_msg), 401
-
         try:
-            token = auth_headers[1]
-            data = jwt.decode(token, current_app.config['SECRET_KEY'])
+            data = jwt.decode(auth_token, current_app.config['SECRET_KEY'])
             return f(data['user_id'], *args, **kwargs)
         except jwt.ExpiredSignatureError:
             return jsonify(expired_msg), 401 # 401 is Unauthorized HTTP status code
         except (jwt.InvalidTokenError, Exception) as e:
             print(e)
             return jsonify(invalid_msg), 401
-
     return _verify
 
 @blueprint.route("/login/facebook", methods=['POST'])
