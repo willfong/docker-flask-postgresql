@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Deployments
+#  This is an API platform that won't serve content
+app/static/

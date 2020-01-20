@@ -1,0 +1,29 @@
+version: '3'
+services:
+  app:
+    container_name: app
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "5000:80"
+    environment:
+      FLASK_ENV_CONFIG: "/app/.env"
+      POSTGRES_HOST: db
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpass
+      POSTGRES_DB: mydb
+    env_file:
+      - .env
+    volumes:
+      - "./:/app/"
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpass
+      POSTGRES_DB: mydb
+    volumes:
+      - "./app/:/app/"
