@@ -6,7 +6,7 @@ from flask import g
 
 def db_get():
     if "db" not in g:
-        print("Initializing DB: {}".format(os.environ.get("DATABASE_URL")))
+        print("Connecting to database: {}".format(os.environ.get("POSTGRES_HOST")))
         g.db = psycopg2.connect(host=os.environ.get("POSTGRES_HOST"), dbname=os.environ.get("POSTGRES_DB"), user=os.environ.get("POSTGRES_USER"), password=os.environ.get("POSTGRES_PASSWORD"))
     return g.db
 
