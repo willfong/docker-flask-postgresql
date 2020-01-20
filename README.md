@@ -1,4 +1,4 @@
-# Boilerplate: Docker / Python / Postgresql
+# Boilerplate: Docker / Flask / Postgresql
 
 ### Docker Stuff
 
