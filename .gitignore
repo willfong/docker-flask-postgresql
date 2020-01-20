@@ -131,3 +131,4 @@ dmypy.json
 # Deployments
 #  This is an API platform that won't serve content
 app/static/
+app/templates/
