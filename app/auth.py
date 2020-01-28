@@ -63,7 +63,7 @@ def google_find_or_create_user(id):
 def token_required(f):
     @wraps(f)
     def _verify(*args, **kwargs):
-    auth_token = request.headers.get('Authorization', '')
+        auth_token = request.headers.get('Authorization', '')
 
         invalid_msg = {
             'message': 'Invalid token. Registeration and / or authentication required',
